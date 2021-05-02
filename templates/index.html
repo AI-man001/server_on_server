@@ -1,0 +1,93 @@
+{% extends "bootstrap/base.html" %} {%block styles %}
+{{super()}}
+<style>
+  body {
+    overflow-x: hidden;
+  }
+</style>
+<link rel="icon" type="image/x-icon" href="{{ url_for('.static', filename='favicon.ico') }}" />
+{% endblock %}{%block scripts %}
+{{super()}}
+<script>
+  document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+  document.onkeydown = function (e) {
+    if (event.keyCode == 123) {
+      return false;
+    }
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+      return false;
+    }
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+      return false;
+    }
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+      return false;
+    }
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+      return false;
+    }
+  }
+  $(".custom-file-input").on("change", function () {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  });
+</script>
+{%endblock%}{% block content %}
+<div class="jumbotron jumbotron-fluid align-items-center">
+  <div class="container text-center">
+    <h1 class="display-5">Upgrade Your Project</h1>
+    <footer class="blockquote-footer">
+      If the machine disturbs you it's wrong until either the machine or your mind is changed.
+    </footer>
+  </div>
+</div>
+<div class="container-fluid h-100">
+  <div class="row justify-content-center align-items-center">
+    <p class="font-weight-bold">
+      You must make sure that there is a <span class="text-success">config.cfg</span>
+      file in the root of your zip file.The <span class="text-success">config.cfg</span>
+      file must be in the following format:
+    </p>
+    <div class="row col-12 justify-content-center align-items-center">
+      <div class="card-deck mb-3">
+        <div class="card mb-4 box-shadow" style="width: 20em;">
+          <h5 class="card-header font-weight-bold font-italic">config.cfg</h5>
+          <div class="card-body">
+            <span class="text-success">[SERVER_CONFIG]</span>
+            <br><span class="text-success">root</span> = main
+            <br><span class="text-success">project</span> = testproject
+            <br><br>
+            <footer class="blockquote-footer">sample config.cfg file structure</footer>
+          </div>
+        </div>
+        <div class="card mb-4 box-shadow" style="width: 20em;">
+          <h5 class="card-header font-weight-bold font-italic">config.cfg</h5>
+          <div class="card-body">
+            <span class="text-success">[SERVER_CONFIG]</span>
+            <br><span class="text-success">project</span> = your_project_name
+            <br><span class="text-success">root</span> = your_project_entry_point
+            <br><br>
+            <footer class="blockquote-footer">root: file name without extension</footer>
+            <footer class="blockquote-footer">project: project name without spaces</footer>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<form method=post enctype=multipart/form-data>
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="input-group mb-3">
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" name="file" id="customFile" accept=".zip">
+          <label class="custom-file-label" for="customFile">choose project zip file</label>
+        </div>
+        <div class="input-group-append">
+          <input class="form-control btn btn-success" type=submit value=Upload>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
